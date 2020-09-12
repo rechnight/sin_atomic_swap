@@ -29,7 +29,7 @@ def initiate_order(amountOfSinToSell, amountOfUsdtToBuy, hashlock, initiator=sin
     abiFunction = Invoke.get_function(params, 'intiate_order', abi_info)
     return SdkUtils.SendTransaction(contract_address, sender, payer, gas_limit, gas_price, abiFunction, preExec)
 
-def get_amount_of_ont_to_sell(hashlock):
+def get_amount_of_sin_to_sell(hashlock):
     preExec = True
     params = dict()
     params["order_id"] = "Hex:" + hashlock.hex()
