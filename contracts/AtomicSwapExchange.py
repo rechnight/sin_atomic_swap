@@ -9,8 +9,8 @@ context = GetContext()
 ONT_ADDRESS = bytearray(b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01')
 
 HASH = 'Hash'
-ONT_TO_SELL =  'OntToSell'
-ETH_TO_BUY = 'EthToBuy'
+SIN_TO_SELL =  'SinToSell'
+USDT_TO_BUY = 'USDTToBuy'
 INITIATOR = "Initiator"
 CLAIMED = "Claimed"
 BUYER = "Buyer"
@@ -20,17 +20,17 @@ REFUND_TIMELOCK_DURATION = 20
 
 def Main(operation, args):
     if operation == 'intiate_order':
-        ont_to_sell = args[0]
-        eth_to_buy = args[1]
+        sin_to_sell = args[0]
+        usdt_to_buy = args[1]
         hashlock = args[2]
         initiator = args[3]
-        return intiate_order(ont_to_sell, eth_to_buy, hashlock, initiator)
+        return intiate_order(sin_to_sell, usdt_to_buy, hashlock, initiator)
     if operation == 'get_amount_of_ont_to_sell':
         hashlock = args[0]
-        return get_amount_of_ont_to_sell(hashlock)
-    if operation == 'get_amount_of_eth_to_buy':
+        return get_amount_of_sin_to_sell(hashlock)
+    if operation == 'get_amount_of_usdt_to_buy':
         hashlock = args[0]
-        return get_amount_of_eth_to_buy(hashlock)
+        return get_amount_of_usdt_to_buy(hashlock)
     if operation == 'get_hashlock':
         hashlock = args[0]
         return get_hashlock(hashlock)
@@ -54,28 +54,28 @@ def Main(operation, args):
         hashlock = args[0]
         secret = args[1]
         return claim(hashlock, secret)
-    if operation == "get_ont_balance":
-        return get_ont_balance()
+    if operation == "get_sin_balance":
+        return get_sin_balance()
 
 
-def intiate_order(ont_to_sell, eth_to_buy, hashlock, initiator):
+def intiate_order(sin_to_sell, usdt_to_buy, hashlock, initiator):
     WitnessRequire(initiator)
     order_id = hashlock
     if len(Get(context, ConcatKey(order_id, HASH))) != 0:
         Revert()
     Put(context, ConcatKey(order_id, HASH), hashlock)
-    Put(context, ConcatKey(order_id, ETH_TO_BUY), eth_to_buy)
-    Put(context, ConcatKey(order_id, ONT_TO_SELL), ont_to_sell)
+    Put(context, ConcatKey(order_id, USDT_TO_BUY), usdt_to_buy)
+    Put(context, ConcatKey(order_id, SIN_TO_SELL), sin_to_sell)
     Put(context, ConcatKey(order_id, INITIATOR), initiator)
     Put(context, ConcatKey(order_id, CLAIMED), False)
 
-    transfer_ont(initiator, GetExecutingScriptHash(), ont_to_sell)
+    transfer_sin(initiator, GetExecutingScriptHash(), sin_to_sell)
 
-def get_amount_of_ont_to_sell(order_id):
-    return Get(context, ConcatKey(order_id, ONT_TO_SELL))
+def get_amount_of_sin_to_sell(order_id):
+    return Get(context, ConcatKey(order_id, SIN_TO_SELL))
 
-def get_amount_of_eth_to_buy(order_id):
-    return Get(context, ConcatKey(order_id, ETH_TO_BUY))
+def get_amount_of_usdt_to_buy(order_id):
+    return Get(context, ConcatKey(order_id, USDT_TO_BUY))
 
 def get_hashlock(order_id):
     return Get(context, ConcatKey(order_id, HASH))
@@ -122,15 +122,15 @@ def claim(order_id, secret):
     WitnessRequire(saved_buyer)
 
     Put(context, ConcatKey(order_id, CLAIMED), True)
-    ont_to_sell = Get(context, ConcatKey(order_id, ONT_TO_SELL))
-    transfer_ont(GetExecutingScriptHash(), saved_buyer, ont_to_sell)
+    sin_to_sell = Get(context, ConcatKey(order_id, SIN_TO_SELL))
+    transfer_sin(GetExecutingScriptHash(), saved_buyer, sin_to_sell)
 
-def transfer_ont(fromAcct, toAcct, amount):
+def transfer_sin(fromAcct, toAcct, amount):
     param = state(fromAcct, toAcct, amount)
-    res = Invoke(0, ONT_ADDRESS, 'transfer', [param])
+    res = Invoke(0, SIN_ADDRESS, 'transfer', [param])
     return res
 
-def get_ont_balance():
+def get_sin_balance():
     param = GetExecutingScriptHash()
     return Invoke(0, ONT_ADDRESS, 'balanceOf', param)
 
