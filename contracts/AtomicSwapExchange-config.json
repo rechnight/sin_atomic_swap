@@ -1,25 +1,23 @@
 {
   "defaultWallet": "wallet.json",
   "password": {
-    "AUr5QUfeBADq6BMY6Tp5yuMsUNGpsD7nLZ": "password",
-    "AecaeSEBkt5GcBCxwz1F41TvdjX3dnKBkJ": "password",
-    "AQvZMDecMoCi2y4V6QKdJBtHW1eV7Vbaof": "password"
+    "ASz7Rr7YWMJrNkCk8UDYA5YaFpco6Z5xVF": "password"
   },
   "deployConfig": {
     "name": "Atomic Swap Exchange",
     "version": "1.0.0",
-    "author": "akorunska",
-    "email": "akorunska@gmail.com",
+    "author": "singames",
+    "email": "info@singames.com",
     "desc": "Smart contract for Atomic Swap DEX",
     "needStorage": true,
-    "payer": "AecaeSEBkt5GcBCxwz1F41TvdjX3dnKBkJ",
-    "gasPrice": 500,
+    "payer": "ASz7Rr7YWMJrNkCk8UDYA5YaFpco6Z5xVF",
+    "gasPrice": 2500,
     "gasLimit": 20800000
   },
   "invokeConfig": {
     "abi": "AtomicSwapExchange_abi.json",
-    "defaultPayer": "AecaeSEBkt5GcBCxwz1F41TvdjX3dnKBkJ",
-    "gasPrice": 500,
+    "defaultPayer": "ASz7Rr7YWMJrNkCk8UDYA5YaFpco6Z5xVF",
+    "gasPrice": 2500,
     "gasLimit": 20000,
     "sleepTime": 6,
     "functions": []
