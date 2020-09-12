@@ -25,7 +25,7 @@ def Main(operation, args):
         hashlock = args[2]
         initiator = args[3]
         return intiate_order(sin_to_sell, usdt_to_buy, hashlock, initiator)
-    if operation == 'get_amount_of_ont_to_sell':
+    if operation == 'get_amount_of_sin_to_sell':
         hashlock = args[0]
         return get_amount_of_sin_to_sell(hashlock)
     if operation == 'get_amount_of_usdt_to_buy':
