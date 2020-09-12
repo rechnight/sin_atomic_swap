@@ -12,18 +12,18 @@ gas_price = 0
 abi_path = './contracts/build/AtomicSwapExchange_abi.json'
 contract_address = bytes.fromhex(GetDeployedContractAddress("AtomicSwapExchange"))
 abi_info = Test.get_abi_info(abi_path)
-alice = WalletWrapper.Alice()
-payer = alice
-aliceAddress = WalletWrapper.AliceAddress()
+singames = WalletWrapper.SinGames()
+payer = singames
+singamesAddress = WalletWrapper.SinGamesAddress()
 
 def to_hex(str_to_convert):
     return codecs.encode(bytes(str_to_convert, 'utf-8'), 'hex').decode('ascii')
 
-def initiate_order(amountOfOntToSell, amountOfEthToBuy, hashlock, initiator=aliceAddress, sender=alice):
+def initiate_order(amountOfSinToSell, amountOfUsdtToBuy, hashlock, initiator=singamesAddress, sender=singames):
     preExec = False
     params = dict()
-    params["amountOfOntToSell"] = amountOfOntToSell
-    params["amountOfEthToBuy"] = amountOfEthToBuy
+    params["amountOfOntToSell"] = amountOfSinToSell
+    params["amountOfEthToBuy"] = amountOfUsdtToBuy
     params["hashlock"] = "Hex:" + hashlock.hex()
     params["initiator"] = "ByteArray:" + initiator
     abiFunction = Invoke.get_function(params, 'intiate_order', abi_info)
@@ -34,16 +34,16 @@ def get_amount_of_ont_to_sell(hashlock):
     params = dict()
     params["order_id"] = "Hex:" + hashlock.hex()
 
-    abiFunction = Invoke.get_function(params, 'get_amount_of_ont_to_sell', abi_info)
+    abiFunction = Invoke.get_function(params, 'get_amount_of_sin_to_sell', abi_info)
     responce = SdkUtils.SendTransaction(contract_address, payer, payer, gas_limit, gas_price, abiFunction, preExec)
     return parse_neo_vm_contract_return_type_integer(responce)
     
-def get_amount_of_eth_to_buy(hashlock):
+def get_amount_of_usdt_to_buy(hashlock):
     preExec = True
     params = dict()
     params["order_id"] = "Hex:" + hashlock.hex()
 
-    abiFunction = Invoke.get_function(params, 'get_amount_of_eth_to_buy', abi_info)
+    abiFunction = Invoke.get_function(params, 'get_amount_of_usdt_to_buy', abi_info)
     responce = SdkUtils.SendTransaction(contract_address, payer, payer, gas_limit, gas_price, abiFunction, preExec)
     return parse_neo_vm_contract_return_type_integer(responce)
 
@@ -113,6 +113,6 @@ def get_ont_balance():
     preExec = True
     params = dict()
 
-    abiFunction = Invoke.get_function(params, 'get_ont_balance', abi_info)
+    abiFunction = Invoke.get_function(params, 'get_sin_balance', abi_info)
     responce = SdkUtils.SendTransaction(contract_address, payer, payer, gas_limit, gas_price, abiFunction, preExec)
     return parse_neo_vm_contract_return_type_integer(responce)
