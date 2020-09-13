@@ -22,8 +22,8 @@ def to_hex(str_to_convert):
 def initiate_order(amountOfSinToSell, amountOfUsdtToBuy, hashlock, initiator=singamesAddress, sender=singames):
     preExec = False
     params = dict()
-    params["amountOfOntToSell"] = amountOfSinToSell
-    params["amountOfEthToBuy"] = amountOfUsdtToBuy
+    params["amountOfSinToSell"] = amountOfSinToSell
+    params["amountOfUsdtToBuy"] = amountOfUsdtToBuy
     params["hashlock"] = "Hex:" + hashlock.hex()
     params["initiator"] = "ByteArray:" + initiator
     abiFunction = Invoke.get_function(params, 'intiate_order', abi_info)
