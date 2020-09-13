@@ -48,7 +48,7 @@ punica==0.0.22
 punica-neo-boa==0.4.9
 pycairo==1.16.2
 pycparser==2.19
-pycrypto==2.6.1
+pycrypto>=2.6.1
 pycryptodomex==3.8.2
 pycups==1.9.73
 pygobject==3.26.1
